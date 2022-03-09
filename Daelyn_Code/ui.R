@@ -1,12 +1,5 @@
-library(quantmod)
-
-library(shiny)
-
 ui <- fluidPage(
-  selectInput("select",
-              label = h3("Select A Stock Name"), 
-              choices = names(table(SYMBOLS$Name)), 
-              selected = 1),
+  uiOutput("dropdown"),
   br(),
-  fluidRow(column(3, textOutput("value")))
+  fluidRow(column(3, uiOutput("link")))
 )

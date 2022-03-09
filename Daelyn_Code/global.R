@@ -1,5 +1,8 @@
 library(shiny)
 library(quantmod)
-library(shinydashboard)
 library(shinyWidgets)
 SYMBOLS <- stockSymbols()
+YAHOOURLSTART <- "https://finance.yahoo.com/quote/"
+
+
+yahooQF
