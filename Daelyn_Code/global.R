@@ -1,0 +1,5 @@
+library(shiny)
+library(quantmod)
+library(shinydashboard)
+library(shinyWidgets)
+SYMBOLS <- stockSymbols()
