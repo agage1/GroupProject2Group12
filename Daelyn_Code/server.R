@@ -7,7 +7,7 @@ server <- function(input, output, session) {
     inputId = "select",
     label = h3("Choose Your Stock"), 
     choices = sort(SYMBOLS$SYMBOLNAMECOMBO),
-    selected = SYMBOLS$SYMBOLNAMECOMBO[which(SYMBOLS$Symbol == "Msft")],
+    selected = SYMBOLS$SYMBOLNAMECOMBO[which(SYMBOLS$Symbol == "MSFT")],
     options = list(
       `live-search` = TRUE)
   ))
