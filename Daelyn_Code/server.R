@@ -5,7 +5,7 @@ server <- function(input, output, session) {
   pickerInput(
     inputId = "select",
     label = h3("Choose Your Stock"), 
-    choices = sort(unique(SYMBOLS$Name)),
+    choices = sort(SYMBOLS$SYMBOLNAMECOMBO),
     options = list(
       `live-search` = TRUE)
   ))
