@@ -7,5 +7,3 @@ YAHOOURLSTART <- "https://finance.yahoo.com/quote/"
 
 SYMBOLS <- SYMBOLS %>% 
   mutate(SYMBOLNAMECOMBO = paste(Symbol,"-",Name))
-
-#yahooQF
