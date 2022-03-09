@@ -6,28 +6,40 @@
 #
 #    http://shiny.rstudio.com/
 #
-
+#install.packages("quantmod")
 library(shiny)
+library(quantmod)
+library(fpp3)
+SYMBOLS <- stockSymbols()
+SYMBOLS <- SYMBOLS %>% 
+    mutate(SYMBOLNAMECOMBO = paste(Symbol,"-",Name))
 
 # Define UI for application that draws a histogram
 shinyUI(fluidPage(
 
     # Application title
-    titlePanel("Old Faithful Geyser Data"),
+    titlePanel("Search for Stock Symbol"),
 
     # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(
-            sliderInput("bins",
-                        "Number of bins:",
-                        min = 1,
-                        max = 50,
-                        value = 30)
+            selectInput("select", label = h3("Select a Stock Name"), 
+                        choices = sort(SYMBOLS$SYMBOLNAMECOMBO), 
+                        selected = 1),
         ),
 
         # Show a plot of the generated distribution
         mainPanel(
-            plotOutput("distPlot")
+            plotOutput(
+                "divs",
+                width = "100%",
+                height = "400px",
+                click = NULL,
+                dblclick = NULL,
+                hover = NULL,
+                brush = NULL,
+                inline = FALSE
+            )
         )
     )
 ))
