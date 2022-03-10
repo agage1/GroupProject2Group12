@@ -4,6 +4,7 @@ library(quantmod)
 library(shinyWidgets)
 library(dplyr)
 library(plotly)
+library(fpp3)
 
 SYMBOLS <- stockSymbols()
 YAHOOURLSTART <- "https://finance.yahoo.com/quote/"
