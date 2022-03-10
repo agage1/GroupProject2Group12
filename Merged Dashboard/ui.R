@@ -14,9 +14,8 @@ ui <- dashboardPage(
         br(),
         fluidRow(column(3, uiOutput("link"))),
         br(),
-        dateRangeInput("dates", label = h3("Date range")),
+        dateRangeInput("dates", label = h3("Date range"), start = "2010-01-01"),
         br(),
-        h3("Graph of Dividends"),
         plotOutput(
           "divs",
           width = "100%",
