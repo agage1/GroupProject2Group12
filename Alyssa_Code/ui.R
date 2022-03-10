@@ -1,34 +1,30 @@
 
 library(shiny)
 library(shinydashboard)
+library(quantmod)
+library(shinyWidgets)
+library(dplyr)
+library(plotly)
+
+SYMBOLS <- stockSymbols()
+YAHOOURLSTART <- "https://finance.yahoo.com/quote/"
+SYMBOLS <- SYMBOLS %>% 
+  mutate(SYMBOLNAMECOMBO = paste(Symbol,"-",Name))
 
 ui <- dashboardPage(
-  dashboardHeader(title = "Basic dashboard"),
+  dashboardHeader(title = "Stock Portfolio Tracker"),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
-      menuItem("Widgets", tabName = "widgets", icon = icon("th"))
+      menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard"))
     )
   ),
   dashboardBody(
-    tabItems(
-      # First tab content
-      tabItem(tabName = "dashboard",
-              fluidRow(
-                box(plotOutput("plot1", height = 250)),
-                
-                box(
-                  title = "Controls",
-                  sliderInput("slider", "Number of observations:", 1, 100, 50)
-                )
-              )
-      ),
-      
-      # Second tab content
-      tabItem(tabName = "widgets",
-              h2("Widgets tab content")
-      )
+    fluidPage(
+      uiOutput("dropdown"),
+      br(),
+      uiOutput("text"),
+      br(),
+      fluidRow(column(3, uiOutput("link")))
     )
   )
 )
-
