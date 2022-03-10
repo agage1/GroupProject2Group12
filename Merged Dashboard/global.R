@@ -1,6 +1,11 @@
 library(shiny)
+library(shinydashboard)
 library(quantmod)
-library(fpp3)
+library(shinyWidgets)
+library(dplyr)
+library(plotly)
+
 SYMBOLS <- stockSymbols()
+YAHOOURLSTART <- "https://finance.yahoo.com/quote/"
 SYMBOLS <- SYMBOLS %>% 
   mutate(SYMBOLNAMECOMBO = paste(Symbol,"-",Name))

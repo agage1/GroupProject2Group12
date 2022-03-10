@@ -1,17 +1,33 @@
-
-shinyUI(fluidPage(
-
-    titlePanel("Search for Stock Symbol"),
-
-    sidebarLayout(
-        sidebarPanel(
-            selectInput("select", label = h3("Select a Stock Name"), 
-                        choices = sort(SYMBOLS$SYMBOLNAMECOMBO), 
-                        selected = 1),
-        ),
-
-        mainPanel(
-            uiOutput("divs")
-        )
+ui <- dashboardPage(
+  dashboardHeader(title = "Stock Portfolio Tracker"),
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Choose A Stock", tabName = "Tab 1", icon = icon("chart-line"))
     )
-))
+  ),
+  dashboardBody(
+    fluidPage(
+      mainPanel(
+        uiOutput("dropdown"),
+        br(),
+        uiOutput("text"),
+        br(),
+        fluidRow(column(3, uiOutput("link"))),
+        br(),
+        dateRangeInput("dates", label = h3("Date range")),
+        br(),
+        h3("Graph of Dividends"),
+        plotOutput(
+          "divs",
+          width = "100%",
+          height = "400px",
+          click = NULL,
+          dblclick = NULL,
+          hover = NULL,
+          brush = NULL,
+          inline = FALSE
+        )
+      )
+    )
+  )
+)
