@@ -36,7 +36,7 @@ for (trial in 1:DoesItWork){
     numericInput(
       inputId = boxID,
       # label = paste("How Many Shares of",SYMBOLS$Name[which(SYMBOLS$SYMBOLNAMECOMBO == stuff[trial])],"Do You Want?"),
-      label = paste("How Many Shares of",trial,"Do You Want?"),
+      label = paste("How Many Shares of",boxID,"Do You Want?"),
       value = 20,
       min = 1,
       max = 10000
@@ -44,7 +44,6 @@ for (trial in 1:DoesItWork){
   )
 }
 }
-  print(input$select)
 })
   
 }
