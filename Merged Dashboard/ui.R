@@ -29,7 +29,9 @@ ui <- dashboardPage(
                   br(),
                   uiOutput("text"),
                   br(),
-                  fluidRow(column(4, uiOutput("link"))),
+                  fluidRow(column(5, uiOutput("link"))),
+                  fluidRow(column(5, uiOutput("link2"))),
+                  fluidRow(column(5, uiOutput("link3"))),
                   br()
                 )
               )
