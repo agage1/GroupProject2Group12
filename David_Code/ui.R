@@ -29,7 +29,9 @@ ui <- dashboardPage(
                             br(),
                             uiOutput("text"),
                             br(),
-                            fluidRow(column(4, uiOutput("link"))),
+                            fluidRow(column(5, uiOutput("link"))),
+                            fluidRow(column(5, uiOutput("link2"))),
+                            fluidRow(column(5, uiOutput("link3"))),
                             br()
                         )
                     )
@@ -67,7 +69,9 @@ ui <- dashboardPage(
                             dateRangeInput("dates2", label = h3("Date range"), start = "2010-01-01"),
                             br(), 
                         ),
-                        box(textOutput("realdivs"))))
+                        box(plotOutput("realdivsgraph"),
+                            br(),
+                            box(textOutput("realdivs")))))
         )
     )
 )
