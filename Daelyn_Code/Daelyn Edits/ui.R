@@ -12,7 +12,7 @@ ui <- dashboardPage(
                 br(),
                 uiOutput("text"),
                 br(),
-                fluidRow(column(3, uiOutput("link"))),
+                fluidRow(column(4, uiOutput("link"))),
                 br(),
                 dateRangeInput("dates", label = h3("Date range"), start = "2010-01-01"),
                 br(),                
