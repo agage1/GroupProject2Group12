@@ -28,8 +28,14 @@ ui <- dashboardPage(
         uiOutput("numberinput14"),
         uiOutput("numberinput15"),
         actionButton(inputId = "confirm",label = "Confirm Share Amounts"),
+        br(),
+        br(),
         uiOutput("duration"),
-        uiOutput("confirmduration")
+        uiOutput("confirmduration"),
+        br(),
+        br(),
+        uiOutput("buttons"),
+        uiOutput("buttonbutton")
         )
       )
     )

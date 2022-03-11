@@ -1151,9 +1151,23 @@ server <- function(input, output, session) {
     })
   })
   
+  observeEvent(input$condur,{
+    output$buttons <- renderUI({
+    awesomeRadio(
+      inputId = "simtype",
+      label = "What Type of Simulation to Run?", 
+      choices = c("Average Yearly Return", "Drift"),
+      selected = "Average Yearly Return",
+      inline = TRUE, 
+      checkbox = TRUE
+    )
+    })
+    output$buttonbutton <- renderUI({
+      actionButton(inputId = "simtime", label = "Run Simulation")
+    })
+  })
   
-  
-  
+  # observeEvent()
   
   
   
