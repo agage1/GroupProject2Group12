@@ -1135,4 +1135,26 @@ server <- function(input, output, session) {
       })
     }
   })
+  
+  observeEvent(input$confirm,{
+    output$duration <- renderUI({
+      numericInput(
+        inputId = "years",
+        label = "How many years do you want to simulate?",
+        value = 40,
+        min = 1,
+        max = 100
+      )
+    })
+    output$confirmduration <- renderUI({
+      actionButton(inputId = "condur",label = "Confirm Simulation Duration")
+    })
+  })
+  
+  
+  
+  
+  
+  
+  
 }
