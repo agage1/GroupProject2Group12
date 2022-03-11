@@ -1,4 +1,6 @@
 server <- function(input, output, session) {
+  
+  
   output$text <- renderUI({
     HTML(paste(input$select, collapse = "<br/>"))
   })
@@ -30,7 +32,6 @@ server <- function(input, output, session) {
   })
   
   
-  
   output$link <- renderUI({
     req(input$select)
     value <- SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select)]
@@ -38,8 +39,10 @@ server <- function(input, output, session) {
       YAHOOURLSTART,
       value
     )
+    
     a(href = barelink, paste("See your stock", SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select)], "on Yahoo Finance"), target = "_blank")
   })
+  
   
   output$divs <- renderPlot({
     stockInfo <- getSymbols(SYMBOLS[which(SYMBOLS$SYMBOLNAMECOMBO == input$select), 1], src = "yahoo", auto.assign = FALSE, from = input$dates[1], to = input$dates[2])
@@ -55,4 +58,8 @@ server <- function(input, output, session) {
          verbose = FALSE, main = paste(SYMBOLS$Name[which(SYMBOLS$SYMBOLNAMECOMBO == input$select)], " -- ", input$select2)
     )
   })
+  
+  output$realdivs <- renderText(
+    sum(getDividends(SYMBOLS[which(SYMBOLS$SYMBOLNAMECOMBO == input$select), 1], from = input$dates2[1], to = input$dates2[2]))
+  )
 }

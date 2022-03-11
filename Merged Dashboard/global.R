@@ -11,6 +11,8 @@ library(lubridate)
 SYMBOLS <- stockSymbols()
 
 YAHOOURLSTART <- "https://finance.yahoo.com/quote/"
+MotleyUrlStart <- "https://www.fool.com/quote/"
+ZacksUrlStart <- "https://www.zacks.com/stock/quote/"
 
 SYMBOLS <- SYMBOLS %>% 
   mutate(SYMBOLNAMECOMBO = paste(Symbol,"-",Name))
