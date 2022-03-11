@@ -3,21 +3,26 @@ ui <- dashboardPage(
   dashboardHeader(title = "Stock Portfolio Tracker"),
   dashboardSidebar(
     sidebarMenu(
-      menuItem("Choose A Stock", tabName = "Tab 1", icon = icon("fa-solid fa-link"),
-               menuSubItem("View online", tabName = "SubTab1")),
-      menuItem("Visualization", tabName = "Tab 2", icon = icon("chart-line"))
+      menuItem("App Instructions", tabName = "Tab1"),
+      menuItem("Work with Chosen Stocks", tabName = "Tab2", icon = icon("dollar"),
+               menuSubItem("View online", tabName = "SubTab1", icon = icon("link")),
+               menuSubItem("Paper Trading Simulation", tabName = "SubTab2", icon = icon("chart-line")),
+               menuSubItem("Visualize with Graph", tabName = "SubTab3", icon = icon("chart-line"))
+      )
     )
   ),
   dashboardBody(
     tabItems(
       # First tab content
-      tabItem(tabName = "Tab 1",
-              h5("Search for a stock by Company Name or Ticker.", align = "center"),
-              h4("View the stock on Yahoo Finance.", align = "center"),
+      tabItem(tabName = "Tab1",
+              h3("Search for a stock by Company Name or Ticker.", align = "center"),
+              h3("View the stock on Yahoo Finance.", align = "center"),
               h3("Click on 'Visualization' tab to view graph.", align = "center")),
+      # Second tab content
+      tabItem(tabName = "Tab2",
+              ),
       # First subtab content
       tabItem(tabName = "SubTab1",
-              h2("Choose A Stock", align = "center"),
               fluidPage(
                 box(
                   uiOutput("dropdown"),
@@ -28,10 +33,12 @@ ui <- dashboardPage(
                   br()
                 )
               )
-      ),
-      # Second tab content
-      tabItem(tabName = "Tab 2",
-              h2("Visualization"),
+            ),
+      # Second subtab content
+      tabItem(tabName = "SubTab2",
+              ),
+      # Third subtab content
+      tabItem(tabName = "SubTab3",
               fluidPage(
                 box(
                   dateRangeInput("dates", label = h3("Date range"), start = "2010-01-01"),
@@ -52,7 +59,7 @@ ui <- dashboardPage(
                   )
                 )
               )
-      ) 
-    )
-  )
-)
+            )
+          )
+        )
+      )
