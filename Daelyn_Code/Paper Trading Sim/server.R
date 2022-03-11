@@ -29,12 +29,14 @@ observeEvent(input$select,{
   
 if (DoesItWork>0){
 for (trial in 1:DoesItWork){
-  word <<- paste0("numberinput",trial)
-  boxID <<- paste0("sharesbox" ,trial)
+  word <- paste0("numberinput",trial)
+  boxID <- paste0("sharesbox" ,trial)
+  # stuff <<- sort(input$select)
   output[[word]] <- renderUI(
     numericInput(
       inputId = boxID,
-      label = "How Many Shares Do You Want?",
+      # label = paste("How Many Shares of",SYMBOLS$Name[which(SYMBOLS$SYMBOLNAMECOMBO == stuff[trial])],"Do You Want?"),
+      label = paste("How Many Shares of",trial,"Do You Want?"),
       value = 20,
       min = 1,
       max = 10000
@@ -42,7 +44,7 @@ for (trial in 1:DoesItWork){
   )
 }
 }
-  
+  print(input$select)
 })
   
 }
