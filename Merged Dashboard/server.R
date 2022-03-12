@@ -77,7 +77,16 @@ server <- function(input, output, session) {
     )
   })
   
-  output$realdivs <- renderText(
-    sum(getDividends(SYMBOLS[which(SYMBOLS$SYMBOLNAMECOMBO == input$select), 1], from = input$dates2[1], to = input$dates2[2]))
+  output$realdivs <- renderText(paste("Dividends Over Period Selected = $", 
+                                      sum(getDividends(SYMBOLS[which(SYMBOLS$SYMBOLNAMECOMBO == input$select), 1], from = input$dates2[1], to = input$dates2[2]))
+  ))
+  output$realdivsgraph <-renderPlot(
+    plot(getDividends(SYMBOLS[which(SYMBOLS$SYMBOLNAMECOMBO == input$select), 1], 
+                      from = input$dates2[1], 
+                      to = input$dates2[2]),
+         from = input$dates2[1], 
+         to = input$dates2[2],
+         main = paste(SYMBOLS$Name[which(SYMBOLS$SYMBOLNAMECOMBO == input$select)], " -- Dividends Paid"))
+    
   )
 }

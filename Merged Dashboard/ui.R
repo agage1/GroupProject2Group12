@@ -69,7 +69,9 @@ ui <- dashboardPage(
                   dateRangeInput("dates2", label = h3("Date range"), start = "2010-01-01"),
                   br(), 
                 ),
-                box(textOutput("realdivs"))))
+                box(plotOutput("realdivsgraph"),
+                    br(),
+                    box(textOutput("realdivs")))))
     )
   )
 )
