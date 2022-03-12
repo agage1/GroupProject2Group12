@@ -21,32 +21,11 @@ server <- function(input, output, session) {
   observeEvent(input$select, {
     DoesItWork <- length(input$select)
 
-    # blegh <- 1:15
-    # for (trials in blegh) {
-    #   thingy <- paste0("numberinput", trials)
-    #   output[[thingy]] <- NULL
-    # }
-    # 
-    # if (DoesItWork > 0) {
-    #   for (trial in 1:DoesItWork) {
-    #     word <- paste0("numberinput", trial)
-    #     boxID <- paste0("sharesbox", trial)
-    #     # stuff <<- sort(input$select)
-    #     output[[word]] <- renderUI(
-    #       numericInput(
-    #         inputId = boxID,
-    #         # label = paste("How Many Shares of",SYMBOLS$Name[which(SYMBOLS$SYMBOLNAMECOMBO == stuff[trial])],"Do You Want?"),
-    #         label = paste("How Many Shares of", boxID, "Do You Want?"),
-    #         value = 20,
-    #         min = 1,
-    #         max = 10000
-    #       )
-    #     )
-    #   }
-    # }
-
-
-
+    for (trials in 1:15){
+      KillItWithFire <- paste0("numberinput",trials)
+      output[[KillItWithFire]] <- NULL
+    }
+    
     if (DoesItWork == 1) {
       output$numberinput1 <- renderUI({
         numericInput(
@@ -1152,23 +1131,316 @@ server <- function(input, output, session) {
   })
   
   observeEvent(input$condur,{
-    output$buttons <- renderUI({
-    awesomeRadio(
-      inputId = "simtype",
-      label = "What Type of Simulation to Run?", 
-      choices = c("Average Yearly Return", "Drift"),
-      selected = "Average Yearly Return",
-      inline = TRUE, 
-      checkbox = TRUE
-    )
+    output$description <- renderText({
+    paste("Since it is the only forecasting model that we currently know that includes a trend, the simulation will be performed using the Drift model.")
     })
     output$buttonbutton <- renderUI({
       actionButton(inputId = "simtime", label = "Run Simulation")
     })
   })
   
-  # observeEvent()
   
   
+  observeEvent(input$simtime,{
+    DoesItWork <- length(input$select)
+    if (DoesItWork == 1){
+     stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F)
+     DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+    } else if(DoesItWork == 2){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+    } else if(DoesItWork == 3){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+    } else if(DoesItWork == 4){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+    } else if(DoesItWork == 5){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+    } else if(DoesItWork == 6){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+    } else if(DoesItWork == 7){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+    } else if(DoesItWork == 8){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      stock8 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[8])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+      DailyChange8 <- (as.numeric(stock8[nrow(stock8),4])-as.numeric(stock8[1,1]))/as.numeric(difftime(zoo::index(stock8)[length(zoo::index(stock8))],zoo::index(stock8[1])))
+    } else if(DoesItWork == 9){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      stock8 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[8])],src = "yahoo",auto.assign = F) 
+      stock9 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[9])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+      DailyChange8 <- (as.numeric(stock8[nrow(stock8),4])-as.numeric(stock8[1,1]))/as.numeric(difftime(zoo::index(stock8)[length(zoo::index(stock8))],zoo::index(stock8[1])))
+      DailyChange9 <- (as.numeric(stock9[nrow(stock9),4])-as.numeric(stock9[1,1]))/as.numeric(difftime(zoo::index(stock9)[length(zoo::index(stock9))],zoo::index(stock9[1])))
+    } else if(DoesItWork == 10){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      stock8 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[8])],src = "yahoo",auto.assign = F) 
+      stock9 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[9])],src = "yahoo",auto.assign = F) 
+      stock10 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[10])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+      DailyChange8 <- (as.numeric(stock8[nrow(stock8),4])-as.numeric(stock8[1,1]))/as.numeric(difftime(zoo::index(stock8)[length(zoo::index(stock8))],zoo::index(stock8[1])))
+      DailyChange9 <- (as.numeric(stock9[nrow(stock9),4])-as.numeric(stock9[1,1]))/as.numeric(difftime(zoo::index(stock9)[length(zoo::index(stock9))],zoo::index(stock9[1])))
+      DailyChange10 <- (as.numeric(stock10[nrow(stock10),4])-as.numeric(stock10[1,1]))/as.numeric(difftime(zoo::index(stock10)[length(zoo::index(stock10))],zoo::index(stock10[1])))
+    } else if(DoesItWork == 11){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      stock8 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[8])],src = "yahoo",auto.assign = F) 
+      stock9 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[9])],src = "yahoo",auto.assign = F) 
+      stock10 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[10])],src = "yahoo",auto.assign = F) 
+      stock11 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[11])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+      DailyChange8 <- (as.numeric(stock8[nrow(stock8),4])-as.numeric(stock8[1,1]))/as.numeric(difftime(zoo::index(stock8)[length(zoo::index(stock8))],zoo::index(stock8[1])))
+      DailyChange9 <- (as.numeric(stock9[nrow(stock9),4])-as.numeric(stock9[1,1]))/as.numeric(difftime(zoo::index(stock9)[length(zoo::index(stock9))],zoo::index(stock9[1])))
+      DailyChange10 <- (as.numeric(stock10[nrow(stock10),4])-as.numeric(stock10[1,1]))/as.numeric(difftime(zoo::index(stock10)[length(zoo::index(stock10))],zoo::index(stock10[1])))
+      DailyChange11 <- (as.numeric(stock11[nrow(stock11),4])-as.numeric(stock11[1,1]))/as.numeric(difftime(zoo::index(stock11)[length(zoo::index(stock11))],zoo::index(stock11[1])))
+    } else if(DoesItWork == 12){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      stock8 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[8])],src = "yahoo",auto.assign = F) 
+      stock9 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[9])],src = "yahoo",auto.assign = F) 
+      stock10 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[10])],src = "yahoo",auto.assign = F) 
+      stock11 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[11])],src = "yahoo",auto.assign = F) 
+      stock12 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[12])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+      DailyChange8 <- (as.numeric(stock8[nrow(stock8),4])-as.numeric(stock8[1,1]))/as.numeric(difftime(zoo::index(stock8)[length(zoo::index(stock8))],zoo::index(stock8[1])))
+      DailyChange9 <- (as.numeric(stock9[nrow(stock9),4])-as.numeric(stock9[1,1]))/as.numeric(difftime(zoo::index(stock9)[length(zoo::index(stock9))],zoo::index(stock9[1])))
+      DailyChange10 <- (as.numeric(stock10[nrow(stock10),4])-as.numeric(stock10[1,1]))/as.numeric(difftime(zoo::index(stock10)[length(zoo::index(stock10))],zoo::index(stock10[1])))
+      DailyChange11 <- (as.numeric(stock11[nrow(stock11),4])-as.numeric(stock11[1,1]))/as.numeric(difftime(zoo::index(stock11)[length(zoo::index(stock11))],zoo::index(stock11[1])))
+      DailyChange12 <- (as.numeric(stock12[nrow(stock12),4])-as.numeric(stock12[1,1]))/as.numeric(difftime(zoo::index(stock12)[length(zoo::index(stock12))],zoo::index(stock12[1])))
+    } else if(DoesItWork == 13){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      stock8 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[8])],src = "yahoo",auto.assign = F) 
+      stock9 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[9])],src = "yahoo",auto.assign = F) 
+      stock10 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[10])],src = "yahoo",auto.assign = F) 
+      stock11 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[11])],src = "yahoo",auto.assign = F) 
+      stock12 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[12])],src = "yahoo",auto.assign = F) 
+      stock13 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[13])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+      DailyChange8 <- (as.numeric(stock8[nrow(stock8),4])-as.numeric(stock8[1,1]))/as.numeric(difftime(zoo::index(stock8)[length(zoo::index(stock8))],zoo::index(stock8[1])))
+      DailyChange9 <- (as.numeric(stock9[nrow(stock9),4])-as.numeric(stock9[1,1]))/as.numeric(difftime(zoo::index(stock9)[length(zoo::index(stock9))],zoo::index(stock9[1])))
+      DailyChange10 <- (as.numeric(stock10[nrow(stock10),4])-as.numeric(stock10[1,1]))/as.numeric(difftime(zoo::index(stock10)[length(zoo::index(stock10))],zoo::index(stock10[1])))
+      DailyChange11 <- (as.numeric(stock11[nrow(stock11),4])-as.numeric(stock11[1,1]))/as.numeric(difftime(zoo::index(stock11)[length(zoo::index(stock11))],zoo::index(stock11[1])))
+      DailyChange12 <- (as.numeric(stock12[nrow(stock12),4])-as.numeric(stock12[1,1]))/as.numeric(difftime(zoo::index(stock12)[length(zoo::index(stock12))],zoo::index(stock12[1])))
+      DailyChange13 <- (as.numeric(stock13[nrow(stock13),4])-as.numeric(stock13[1,1]))/as.numeric(difftime(zoo::index(stock13)[length(zoo::index(stock13))],zoo::index(stock13[1])))
+    } else if(DoesItWork == 14){
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F) 
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F) 
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      stock8 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[8])],src = "yahoo",auto.assign = F) 
+      stock9 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[9])],src = "yahoo",auto.assign = F) 
+      stock10 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[10])],src = "yahoo",auto.assign = F) 
+      stock11 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[11])],src = "yahoo",auto.assign = F) 
+      stock12 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[12])],src = "yahoo",auto.assign = F) 
+      stock13 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[13])],src = "yahoo",auto.assign = F) 
+      stock14 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[14])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+      DailyChange8 <- (as.numeric(stock8[nrow(stock8),4])-as.numeric(stock8[1,1]))/as.numeric(difftime(zoo::index(stock8)[length(zoo::index(stock8))],zoo::index(stock8[1])))
+      DailyChange9 <- (as.numeric(stock9[nrow(stock9),4])-as.numeric(stock9[1,1]))/as.numeric(difftime(zoo::index(stock9)[length(zoo::index(stock9))],zoo::index(stock9[1])))
+      DailyChange10 <- (as.numeric(stock10[nrow(stock10),4])-as.numeric(stock10[1,1]))/as.numeric(difftime(zoo::index(stock10)[length(zoo::index(stock10))],zoo::index(stock10[1])))
+      DailyChange11 <- (as.numeric(stock11[nrow(stock11),4])-as.numeric(stock11[1,1]))/as.numeric(difftime(zoo::index(stock11)[length(zoo::index(stock11))],zoo::index(stock11[1])))
+      DailyChange12 <- (as.numeric(stock12[nrow(stock12),4])-as.numeric(stock12[1,1]))/as.numeric(difftime(zoo::index(stock12)[length(zoo::index(stock12))],zoo::index(stock12[1])))
+      DailyChange13 <- (as.numeric(stock13[nrow(stock13),4])-as.numeric(stock13[1,1]))/as.numeric(difftime(zoo::index(stock13)[length(zoo::index(stock13))],zoo::index(stock13[1])))
+      DailyChange14 <- (as.numeric(stock14[nrow(stock14),4])-as.numeric(stock14[1,1]))/as.numeric(difftime(zoo::index(stock14)[length(zoo::index(stock14))],zoo::index(stock14[1])))
+    } else {
+      stock1 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[1])],src = "yahoo",auto.assign = F) 
+      stock2 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[2])],src = "yahoo",auto.assign = F) 
+      stock3 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[3])],src = "yahoo",auto.assign = F)
+      stock4 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[4])],src = "yahoo",auto.assign = F)  
+      stock5 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[5])],src = "yahoo",auto.assign = F) 
+      stock6 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[6])],src = "yahoo",auto.assign = F) 
+      stock7 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[7])],src = "yahoo",auto.assign = F) 
+      stock8 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[8])],src = "yahoo",auto.assign = F) 
+      stock9 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[9])],src = "yahoo",auto.assign = F) 
+      stock10 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[10])],src = "yahoo",auto.assign = F) 
+      stock11 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[11])],src = "yahoo",auto.assign = F) 
+      stock12 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[12])],src = "yahoo",auto.assign = F) 
+      stock13 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[13])],src = "yahoo",auto.assign = F) 
+      stock14 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[14])],src = "yahoo",auto.assign = F) 
+      stock15 <- getSymbols(SYMBOLS$Symbol[which(SYMBOLS$SYMBOLNAMECOMBO == input$select[15])],src = "yahoo",auto.assign = F) 
+      DailyChange1 <- (as.numeric(stock1[nrow(stock1),4])-as.numeric(stock1[1,1]))/as.numeric(difftime(zoo::index(stock1)[length(zoo::index(stock1))],zoo::index(stock1[1])))
+      DailyChange2 <- (as.numeric(stock2[nrow(stock2),4])-as.numeric(stock2[1,1]))/as.numeric(difftime(zoo::index(stock2)[length(zoo::index(stock2))],zoo::index(stock2[1])))
+      DailyChange3 <- (as.numeric(stock3[nrow(stock3),4])-as.numeric(stock3[1,1]))/as.numeric(difftime(zoo::index(stock3)[length(zoo::index(stock3))],zoo::index(stock3[1])))
+      DailyChange4 <- (as.numeric(stock4[nrow(stock4),4])-as.numeric(stock4[1,1]))/as.numeric(difftime(zoo::index(stock4)[length(zoo::index(stock4))],zoo::index(stock4[1])))
+      DailyChange5 <- (as.numeric(stock5[nrow(stock5),4])-as.numeric(stock5[1,1]))/as.numeric(difftime(zoo::index(stock5)[length(zoo::index(stock5))],zoo::index(stock5[1])))
+      DailyChange6 <- (as.numeric(stock6[nrow(stock6),4])-as.numeric(stock6[1,1]))/as.numeric(difftime(zoo::index(stock6)[length(zoo::index(stock6))],zoo::index(stock6[1])))
+      DailyChange7 <- (as.numeric(stock7[nrow(stock7),4])-as.numeric(stock7[1,1]))/as.numeric(difftime(zoo::index(stock7)[length(zoo::index(stock7))],zoo::index(stock7[1])))
+      DailyChange8 <- (as.numeric(stock8[nrow(stock8),4])-as.numeric(stock8[1,1]))/as.numeric(difftime(zoo::index(stock8)[length(zoo::index(stock8))],zoo::index(stock8[1])))
+      DailyChange9 <- (as.numeric(stock9[nrow(stock9),4])-as.numeric(stock9[1,1]))/as.numeric(difftime(zoo::index(stock9)[length(zoo::index(stock9))],zoo::index(stock9[1])))
+      DailyChange10 <- (as.numeric(stock10[nrow(stock10),4])-as.numeric(stock10[1,1]))/as.numeric(difftime(zoo::index(stock10)[length(zoo::index(stock10))],zoo::index(stock10[1])))
+      DailyChange11 <- (as.numeric(stock11[nrow(stock11),4])-as.numeric(stock11[1,1]))/as.numeric(difftime(zoo::index(stock11)[length(zoo::index(stock11))],zoo::index(stock11[1])))
+      DailyChange12 <- (as.numeric(stock12[nrow(stock12),4])-as.numeric(stock12[1,1]))/as.numeric(difftime(zoo::index(stock12)[length(zoo::index(stock12))],zoo::index(stock12[1])))
+      DailyChange13 <- (as.numeric(stock13[nrow(stock13),4])-as.numeric(stock13[1,1]))/as.numeric(difftime(zoo::index(stock13)[length(zoo::index(stock13))],zoo::index(stock13[1])))
+      DailyChange14 <- (as.numeric(stock14[nrow(stock14),4])-as.numeric(stock14[1,1]))/as.numeric(difftime(zoo::index(stock14)[length(zoo::index(stock14))],zoo::index(stock14[1])))
+      DailyChange15 <- (as.numeric(stock15[nrow(stock15),4])-as.numeric(stock15[1,1]))/as.numeric(difftime(zoo::index(stock15)[length(zoo::index(stock15))],zoo::index(stock15[1])))
+    }
+    
+    
+      if (DoesItWork == 1){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1
+      } else if (DoesItWork == 2){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2
+      } else if (DoesItWork == 3){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3
+      } else if (DoesItWork == 4){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4
+      } else if (DoesItWork == 5){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5
+      } else if (DoesItWork == 6){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6
+      } else if (DoesItWork == 7){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7
+      } else if (DoesItWork == 8){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7+(as.numeric(stock8[nrow(stock8),5])+input$years*365*DailyChange8)*input$numberbox8
+      } else if (DoesItWork == 9){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7+(as.numeric(stock8[nrow(stock8),5])+input$years*365*DailyChange8)*input$numberbox8+(as.numeric(stock9[nrow(stock9),5])+input$years*365*DailyChange9)*input$numberbox9
+      } else if (DoesItWork == 10){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7+(as.numeric(stock8[nrow(stock8),5])+input$years*365*DailyChange8)*input$numberbox8+(as.numeric(stock9[nrow(stock9),5])+input$years*365*DailyChange9)*input$numberbox9+(as.numeric(stock10[nrow(stock10),5])+input$years*365*DailyChange10)*input$numberbox10
+      } else if (DoesItWork == 11){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7+(as.numeric(stock8[nrow(stock8),5])+input$years*365*DailyChange8)*input$numberbox8+(as.numeric(stock9[nrow(stock9),5])+input$years*365*DailyChange9)*input$numberbox9+(as.numeric(stock10[nrow(stock10),5])+input$years*365*DailyChange10)*input$numberbox10+(as.numeric(stock11[nrow(stock11),5])+input$years*365*DailyChange11)*input$numberbox11
+      } else if (DoesItWork == 12){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7+(as.numeric(stock8[nrow(stock8),5])+input$years*365*DailyChange8)*input$numberbox8+(as.numeric(stock9[nrow(stock9),5])+input$years*365*DailyChange9)*input$numberbox9+(as.numeric(stock10[nrow(stock10),5])+input$years*365*DailyChange10)*input$numberbox10+(as.numeric(stock11[nrow(stock11),5])+input$years*365*DailyChange11)*input$numberbox11+(as.numeric(stock12[nrow(stock12),5])+input$years*365*DailyChange12)
+      } else if (DoesItWork == 13){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7+(as.numeric(stock8[nrow(stock8),5])+input$years*365*DailyChange8)*input$numberbox8+(as.numeric(stock9[nrow(stock9),5])+input$years*365*DailyChange9)*input$numberbox9+(as.numeric(stock10[nrow(stock10),5])+input$years*365*DailyChange10)*input$numberbox10+(as.numeric(stock11[nrow(stock11),5])+input$years*365*DailyChange11)*input$numberbox11+(as.numeric(stock12[nrow(stock12),5])+input$years*365*DailyChange12)+(as.numeric(stock13[nrow(stock13),5])+input$years*365*DailyChange13)*input$numberbox13
+      } else if (DoesItWork == 14){
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7+(as.numeric(stock8[nrow(stock8),5])+input$years*365*DailyChange8)*input$numberbox8+(as.numeric(stock9[nrow(stock9),5])+input$years*365*DailyChange9)*input$numberbox9+(as.numeric(stock10[nrow(stock10),5])+input$years*365*DailyChange10)*input$numberbox10+(as.numeric(stock11[nrow(stock11),5])+input$years*365*DailyChange11)*input$numberbox11+(as.numeric(stock12[nrow(stock12),5])+input$years*365*DailyChange12)+(as.numeric(stock13[nrow(stock13),5])+input$years*365*DailyChange13)*input$numberbox13+(as.numeric(stock14[nrow(stock14),5])+input$years*365*DailyChange14)*input$numberbox14
+      } else {
+        NewAccountWorth <- (as.numeric(stock1[nrow(stock1),4])+input$years*365*DailyChange1)*input$numberbox1+(as.numeric(stock2[nrow(stock2),4])+input$years*365*DailyChange2)*input$numberbox2+(as.numeric(stock3[nrow(stock3),4])+input$years*365*DailyChange3)*input$numberbox3+(as.numeric(stock4[nrow(stock4),4])+input$years*365*DailyChange4)*input$numberbox4+(as.numeric(stock5[nrow(stock5),5])+input$years*365*DailyChange5)*input$numberbox5+(as.numeric(stock6[nrow(stock6),5])+input$years*365*DailyChange6)*input$numberbox6+(as.numeric(stock7[nrow(stock7),5])+input$years*365*DailyChange7)*input$numberbox7+(as.numeric(stock8[nrow(stock8),5])+input$years*365*DailyChange8)*input$numberbox8+(as.numeric(stock9[nrow(stock9),5])+input$years*365*DailyChange9)*input$numberbox9+(as.numeric(stock10[nrow(stock10),5])+input$years*365*DailyChange10)*input$numberbox10+(as.numeric(stock11[nrow(stock11),5])+input$years*365*DailyChange11)*input$numberbox11+(as.numeric(stock12[nrow(stock12),5])+input$years*365*DailyChange12)+(as.numeric(stock13[nrow(stock13),5])+input$years*365*DailyChange13)*input$numberbox13+(as.numeric(stock14[nrow(stock14),5])+input$years*365*DailyChange14)*input$numberbox14+(as.numeric(stock15[nrow(stock15),5])+input$years*365*DailyChange15)*input$numberbox15
+      }
+    
+    
+    showModal(modalDialog(
+      title = "Important Message",
+      div(
+        "Your account worth after ", paste(input$years), "years is", paste0("$",round(NewAccountWorth,2))
+      )
+    ))
+    
+  })
   
 }

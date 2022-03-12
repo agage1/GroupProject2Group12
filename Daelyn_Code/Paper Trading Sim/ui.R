@@ -34,7 +34,8 @@ ui <- dashboardPage(
         uiOutput("confirmduration"),
         br(),
         br(),
-        uiOutput("buttons"),
+        uiOutput("description"),
+        br(),
         uiOutput("buttonbutton")
         )
       )
